@@ -37,7 +37,6 @@
             processes.run.exec = "hello";
           })
         ];
-      }
-    };
-  );
+      };
+   });
 }
