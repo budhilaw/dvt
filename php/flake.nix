@@ -25,7 +25,7 @@
             pkgs = nixpkgs.legacyPackages.${system};
           in
           {
-            default = devenv.lib.mkShell {
+            default = devenv.lib.mkShellNoCC {
               inherit inputs pkgs;
               modules = [ {
                   packages = [ pkgs.hello ];
