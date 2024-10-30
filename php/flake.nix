@@ -24,7 +24,7 @@
       packages.${system}.devenv-test = self.devShells.${system}.default.config.test;
 
       devShells.${system}.default = devenv.lib.mkShell {
-        inherit inputs pkgs;
+        inherit pkgs;
         modules = [
           ({ pkgs, config, ... }: {
             # This is your devenv configuration
