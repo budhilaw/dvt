@@ -12,7 +12,7 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = { self, nixpkgs, devenv, ... }@inputs: input.flake-utils.lib.eachSystem [
+  outputs = { self, nixpkgs, devenv, ... }@inputs: inputs.flake-utils.lib.eachSystem [
     "x86_64-linux" "i686-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"
   ] (system:
     let pkgs = import nixpkgs {
