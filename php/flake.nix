@@ -12,7 +12,7 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = { self, nixpkgs, devenv, ... }@input: input.flake-utils.lib.eachSystem [
+  outputs = { self, nixpkgs, devenv, ... }@inputs: input.flake-utils.lib.eachSystem [
     "x86_64-linux" "i686-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"
   ] (system:
     let pkgs = import nixpkgs {
@@ -24,7 +24,7 @@
       packages.devenv-test = self.devShells.${system}.default.config.test;
 
       devShells.${system}.default = devenv.lib.mkShell {
-        inherit pkgs;
+        inherit inputs pkgs;
         modules = [
           ({ pkgs, config, ... }: {
             # This is your devenv configuration
