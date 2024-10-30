@@ -11,11 +11,11 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = { self, nixpkgs, utils, devenv, ... }:
+  outputs = { self, nixpkgs, utils, devenv, ... } @ inputs:
 
     utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs { inherit inputs system; };
       in
       {
         packages.${system}.devenv-up = self.devShells.${system}.default.config.procfileScript;
