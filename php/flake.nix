@@ -11,8 +11,6 @@
 
   outputs = { self, nixpkgs, devenv, ... } @ inputs:
     let
-      system = "aarch64-darwin";
-
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
