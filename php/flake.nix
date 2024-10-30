@@ -20,8 +20,8 @@
           config.allowUnfree = true;
         };
     in {
-      packages.${system}.devenv-up = self.devShells.${system}.default.config.procfileScript;
-      packages.${system}.devenv-test = self.devShells.${system}.default.config.test;
+      packages.devenv-up = self.devShells.${system}.default.config.procfileScript;
+      packages.devenv-test = self.devShells.${system}.default.config.test;
 
       devShells.${system}.default = devenv.lib.mkShell {
         inherit pkgs;
