@@ -15,7 +15,7 @@
 
     utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit overlays system; };
+        pkgs = import nixpkgs { inherit system; };
       in
       {
         packages.${system}.devenv-up = self.devShells.${system}.default.config.procfileScript;
