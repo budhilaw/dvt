@@ -1,7 +1,9 @@
 {
+  description = "A Nix-flake-based Go development environment";
+
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    devenv.url = "github:cachix/devenv";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    utils.url = "github:numtide/flake-utils";
   };
 
   nixConfig = {
@@ -9,28 +11,30 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = { self, nixpkgs, devenv, ... } @ inputs:
-    let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
-      packages.${system}.devenv-up = self.devShells.${system}.default.config.procfileScript;
-      packages.${system}.devenv-test = self.devShells.${system}.default.config.test;
+  outputs = { self, nixpkgs, utils, devenv, ... }:
 
-      devShells.${system}.default = devenv.lib.mkShell {
-        inherit inputs pkgs;
-        modules = [
-          ({ pkgs, config, ... }: {
-            # This is your devenv configuration
-            packages = [ pkgs.hello ];
+    utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit overlays system; };
+      in
+      {
+        packages.${system}.devenv-up = self.devShells.${system}.default.config.procfileScript;
+        packages.${system}.devenv-test = self.devShells.${system}.default.config.test;
 
-            enterShell = ''
-              hello
-            '';
+        devShells.default = devenv.lib.mkShell {
+          inherit inputs pkgs;
+          modules = [
+            ({ pkgs, config, ... }: {
+              # This is your devenv configuration
+              packages = [ pkgs.hello ];
 
-            processes.run.exec = "hello";
-          })
-        ];
-      };
-    };
+              enterShell = ''
+                hello
+              '';
+
+              processes.run.exec = "hello";
+            })
+          ];
+        };
+      });
 }
