@@ -33,7 +33,7 @@
                   env.DBUSER = "myusername";
                   env.HOSTNAME = "localhost";
 
-                  packages = with pkgs; [ ];
+                  packages = with pkgs; [ pkgs.bashInteractive ];
 
                   # Enable PHP-FPM languages
                   languages.php = {
