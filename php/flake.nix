@@ -17,15 +17,15 @@
             appName = "web";
           in
           {
-            buildInputs = [
-              pkgs.bashInteractive
-            ];
+            shellHook = ''
+              export SHELL=/run/current-system/sw/bin/bash
+            '';
 
             env.DBNAME = "backend_portal";
             env.DBUSER = "myusername";
             env.HOSTNAME = "localhost";
 
-            packages = with pkgs; [ ];
+            packages = with pkgs; [ pkgs.bashInteractive ];
 
             # Enable PHP-FPM languages
             languages.php = {
