@@ -28,9 +28,6 @@
           {
             default = devenv.lib.mkShell {
               inherit inputs pkgs;
-              buildInputs = [
-                pkgs.bashInteractive
-              ];
 
               shellHook = ''
                 export SHELL=/run/current-system/sw/bin/bash
