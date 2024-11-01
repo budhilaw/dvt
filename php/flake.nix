@@ -133,6 +133,11 @@
                       }
                     '';
                   };
+
+                  scripts.up.exec = # bash
+                  ''
+                    devenv up
+                  '';
                 })
               ];
             };
