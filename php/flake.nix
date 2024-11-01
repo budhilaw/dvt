@@ -17,10 +17,6 @@
             appName = "web";
           in
           {
-            shellHook = ''
-              export SHELL=/run/current-system/sw/bin/bash
-            '';
-
             env.DBNAME = "backend_portal";
             env.DBUSER = "myusername";
             env.HOSTNAME = "localhost";
