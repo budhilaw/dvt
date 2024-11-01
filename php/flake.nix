@@ -28,12 +28,20 @@
           {
             default = devenv.lib.mkShell {
               inherit inputs pkgs;
+              buildInputs = [
+                pkgs.bashInteractive
+              ];
+
+              shellHook = ''
+                export SHELL=/run/current-system/sw/bin/bash
+              '';
+
               modules = [ ({ pkgs, config, ... }: {
                   env.DBNAME = "my_db_name";
                   env.DBUSER = "myusername";
                   env.HOSTNAME = "localhost";
 
-                  packages = with pkgs; [ pkgs.bashInteractive ];
+                  packages = with pkgs; [ ];
 
                   # Enable PHP-FPM languages
                   languages.php = {
