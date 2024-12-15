@@ -10,7 +10,7 @@
 
     utils.lib.eachDefaultSystem (system:
       let
-        nodejsVersion = 22;
+        nodejsVersion = 18;
         overlays = [
           (final: prev: rec {
             nodejs = prev."nodejs-${toString nodejsVersion}_x";
