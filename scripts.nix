@@ -38,6 +38,6 @@
         --experimental-features 'nix-command flakes' \
         flake init \
         --template \
-        "github:budhilaw-paper/dvt#''${TEMPLATE}"
+        "github:budhilaw/dvt#''${TEMPLATE}"
     '';
 }
