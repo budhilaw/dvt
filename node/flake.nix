@@ -1,5 +1,5 @@
 {
-  description = "A Nix-flake-based Node.js development environment";
+  description = "A Nix-flake-based Go development environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -7,24 +7,26 @@
   };
 
   outputs = { self, nixpkgs, utils }:
+
     utils.lib.eachDefaultSystem (system:
       let
-        overlays = [];
+        nodejsVersion = 18;
+        overlays = [ (final: prev: {
+            nodejs = prev."nodejs-${toString nodejsVersion}_x";
+            pnpm = prev.nodePackages.pnpm;
+            yarn = (prev.yarn.override { inherit nodejs; });
+          })
+        ];
         pkgs = import nixpkgs { inherit overlays system; };
-        
-        nodejsVersions = {
-          "18" = pkgs.nodejs_18;
-          "20" = pkgs.nodejs_20;
-          "21" = pkgs.nodejs_21;
-          "22" = pkgs.nodejs_22;
-          "23" = pkgs.nodejs_23;
-        };
-        
-        getNodejs = version: nodejsVersions.${toString version} or pkgs.nodejs;
 
-      in {
+      in
+      {
         devShells.default = pkgs.mkShell {
-          buildInputs = [ (getNodejs 22) ];
+          buildInputs = with pkgs; [
+            nodejs
+            pnpm
+            yarn
+          ];
         };
       });
 }
