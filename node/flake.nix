@@ -10,12 +10,10 @@
 
     utils.lib.eachDefaultSystem (system:
       let
-        nodejsVersion = 18;
+        nodejsVersion = 22;
         overlays = [
           (final: prev: rec {
             nodejs = prev."nodejs-${toString nodejsVersion}_x";
-            pnpm = prev.nodePackages.pnpm;
-            yarn = (prev.yarn.override { inherit nodejs; });
           })
         ];
 
@@ -24,13 +22,7 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [ nodejs pnpm yarn ];
-
-          shellHook = with pkgs;''
-            echo "node `${nodejs}/bin/node --version`"
-            echo "yarn `${yarn}/bin/yarn --version`"
-            echo "pnpm `${pnpm}/bin/pnpm --version`"
-          '';
+          buildInputs = with pkgs; [ nodejs ];
         };
 
       });
