@@ -13,9 +13,9 @@
         pkgs = import nixpkgs { inherit overlays system; };
         
         nodejsVersions = {
-          "18" = pkgs.nodejs-18_x;
-          "20" = pkgs.nodejs-20_x;
-          "21" = pkgs.nodejs-21_x;
+          "18" = pkgs.nodejs_18;
+          "20" = pkgs.nodejs_20;
+          "21" = pkgs.nodejs_21;
         };
         
         getNodejs = version: nodejsVersions.${toString version} or pkgs.nodejs;
