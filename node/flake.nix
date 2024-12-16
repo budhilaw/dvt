@@ -16,13 +16,15 @@
           "18" = pkgs.nodejs_18;
           "20" = pkgs.nodejs_20;
           "21" = pkgs.nodejs_21;
+          "22" = pkgs.nodejs_22;
+          "23" = pkgs.nodejs_23;
         };
         
         getNodejs = version: nodejsVersions.${toString version} or pkgs.nodejs;
 
       in {
         devShells.default = pkgs.mkShell {
-          buildInputs = [ (getNodejs 20) ];
+          buildInputs = [ (getNodejs 22) ];
         };
       });
 }
