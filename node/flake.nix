@@ -7,23 +7,22 @@
   };
 
   outputs = { self, nixpkgs, utils }:
-
     utils.lib.eachDefaultSystem (system:
       let
-        nodejsVersion = 22;
-        overlays = [
-          (final: prev: rec {
-            nodejs = prev."nodejs-${toString nodejsVersion}_x";
-          })
-        ];
-
+        overlays = [];
         pkgs = import nixpkgs { inherit overlays system; };
-
-      in
-      {
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [ nodejs ];
+        
+        nodejsVersions = {
+          "18" = pkgs.nodejs-18_x;
+          "20" = pkgs.nodejs-20_x;
+          "21" = pkgs.nodejs-21_x;
         };
+        
+        getNodejs = version: nodejsVersions.${toString version} or pkgs.nodejs;
 
+      in {
+        devShells.default = pkgs.mkShell {
+          buildInputs = [ (getNodejs 20) ];
+        };
       });
 }
