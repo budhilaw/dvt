@@ -12,24 +12,19 @@
       let
         mkNodejsShell = nodejsVersion:
           let
-            overlays = [
-              (final: prev: rec {
-                nodejs = prev."nodejs_${toString nodejsVersion}";
-                pnpm = prev.nodePackages.pnpm;
-                yarn = (prev.yarn.override { inherit nodejs; });
-              })
-            ];
-
-            pkgs = import nixpkgs { inherit overlays system; };
+            pkgs = import nixpkgs { inherit system; };
+            nodejs = pkgs."nodejs_${toString nodejsVersion}";
+            pnpm = pkgs.nodePackages.pnpm;
+            yarn = pkgs.yarn.override { inherit nodejs; };
           in
           pkgs.mkShell {
-            buildInputs = with pkgs; [ nodejs pnpm yarn ];
+            buildInputs = [ nodejs pnpm yarn ];
 
-            shellHook = with pkgs;''
+            shellHook = ''
               echo "Node.js ${toString nodejsVersion} development environment"
-              echo "node `${nodejs}/bin/node --version`"
-              echo "yarn `${yarn}/bin/yarn --version`"
-              echo "pnpm `${pnpm}/bin/pnpm --version`"
+              echo "node $(${nodejs}/bin/node --version)"
+              echo "yarn $(${yarn}/bin/yarn --version)"
+              echo "pnpm $(${pnpm}/bin/pnpm --version)"
             '';
           };
 
