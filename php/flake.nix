@@ -19,17 +19,6 @@
           in
           pkgs.mkShell {
             buildInputs = [ php composer wp-cli ];
-
-            shellHook = ''
-              echo "PHP ${toString phpVersion} development environment"
-              echo "php $(${php}/bin/php --version | head -n 1)"
-              echo "composer $(${composer}/bin/composer --version --no-ansi | cut -d' ' -f1-3)"
-              echo "wp-cli $(${wp-cli}/bin/wp --version)"
-              echo ""
-              echo "Ready for Laravel and WordPress development!"
-              echo "- Laravel: composer create-project laravel/laravel project-name"
-              echo "- WordPress: wp core download"
-            '';
           };
 
       in
